@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomUserDetails.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java in spring-boot-skeleton Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.nnk.springboot.config</a> &gt; <span class="el_source">CustomUserDetails.java</span></div><h1>CustomUserDetails.java</h1><pre class="source lang-java linenums">package com.nnk.springboot.config;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.nnk.springboot.domain.User;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * This class is a custom implementation of the UserDetails class.&lt;br&gt;
+ * It maps a User object to a UserDetails object,
+ * which can then be interpreted by SpringSecurity
+ * for authentication and authorization purposes.
+ */
+public class CustomUserDetails implements UserDetails {
+    /**
+     * the domain User object that is mapped to a SpringSecurity UserDetails objects
+     */
+    private User user;
+
+<span class="fc" id="L24">    public CustomUserDetails(User user) {</span>
+<span class="fc" id="L25">        this.user = user;</span>
+<span class="fc" id="L26">    }</span>
+
+    /**
+     * This method returns the authorities of a user, based on its role attribute
+     * @return Collection&lt;? extends GrantedAuthority&gt;
+     */
+    @Override
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if(!user.getRole().isBlank()) {</span>
+<span class="fc" id="L35">            List&lt;GrantedAuthority&gt; authorities = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L36">            authorities.add(new SimpleGrantedAuthority(user.getRole()));</span>
+<span class="fc" id="L37">            return authorities;</span>
+        }
+<span class="fc" id="L39">        return null;</span>
+    }
+
+    @Override public String getPassword() {
+<span class="nc" id="L43">        return user.getPassword();</span>
+    }
+
+    @Override
+    public String getUsername() {
+<span class="nc" id="L48">        return user.getUsername();</span>
+    }
+
+    /**
+     * All accounts are considered non expired
+     * @return true
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+<span class="nc" id="L57">        return true;</span>
+    }
+
+    /**
+     * All accounts are considered non locked
+     * @return true
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+<span class="nc" id="L66">        return true;</span>
+    }
+
+    /**
+     * All credentials are considered non expired
+     * @return true
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
+<span class="nc" id="L75">        return true;</span>
+    }
+
+    /**
+     * All accounts are considered enabled
+     * @return true
+     */
+    @Override
+    public boolean isEnabled() {
+<span class="nc" id="L84">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
